@@ -19,7 +19,7 @@ class Network():
         return 1.0/ (1.0 + np.exp(-value))
     
     def sigmoid_prime(self, value):
-        return value * (1-value)
+        return self.sigmoid(value) * (1-self.sigmoid(value))
 
     def get_layer_outputs(self, inputs, layer):
         return self.sigmoid(np.dot(inputs, self.weights[layer]) + self.biases[layer])
