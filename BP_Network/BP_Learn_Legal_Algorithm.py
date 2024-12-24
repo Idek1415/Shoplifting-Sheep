@@ -88,6 +88,20 @@ def get_op_learningRate():
 
     print(iter_nums.sort(reverse=True, key=lambda item :item[1]))
 
-train_legal_placements()
+
+def test_learning():
+    n = Network([2,2,4])
+    inputs = [0.5,0.5,0.5,0.5]
+    legal_placements = [1,1,0,0]
+
+    while np.mean(np.square(legal_placements - n.outputs)) > 0.1:
+        n.propogate(inputs)
+        n.backpropogate(legal_placements - n.outputs, n.hidden_layers)
+        print("ERROR: " + str(np.mean(np.square(legal_placements - n.outputs))))
+
+    
+
+
+#train_legal_placements()
 #get_op_learningRate()       
  
