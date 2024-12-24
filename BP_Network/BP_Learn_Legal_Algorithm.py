@@ -102,6 +102,7 @@ def test_learning():
     
 
 
+test_learning()
 #train_legal_placements()
 #get_op_learningRate()       
  
