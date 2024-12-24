@@ -67,7 +67,7 @@ class Network():
         for l in self.biases:
             for b in l:
                 b += random.uniform(-1.0, 1.0) * MUTATE_MAGNITUDE
-
+        
     
 
 

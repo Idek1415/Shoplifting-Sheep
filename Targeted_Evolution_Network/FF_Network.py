@@ -73,7 +73,6 @@ class Network():
         self.mutate(threshold, current_layer = current_layer + 1)
 
 
-
 def determine_thresholds(network, max_network_fitness):
     network_accuracy = network.fitness / max_network_fitness
 
@@ -81,10 +80,17 @@ def determine_thresholds(network, max_network_fitness):
     bias_min = min(network.bias_fitnesses)
     bias_average = np.mean(network.bias_fitnesses)
 
-    
+    bias_threshold = bias_average * threshold_curve(bias_max - bias_min)
 
     weight_max = max(network.weight_fitnesses)
     weight_min = min(network.weight_fitnesses)
     weight_average = np.mean(network.weight_fitnesses)
+    weight_threshold = weight_average # * threshold_curve(weight_max - weight_min)
 
-    
+    return {
+        "Weight Threshold" : weight_threshold,
+        "Bias Threshold" : bias_threshold
+    }
+
+
+
