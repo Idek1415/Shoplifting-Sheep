@@ -33,28 +33,28 @@ class Network():
         else:
             self.propogate(self.hidden_outputs[current_layer], current_layer= current_layer + 1)
     
-    def backpropogate(self, error, current_layer, delta_output = None):
+    def backpropogate(self, error, current_layer, delta = None):
         if (current_layer < 0):         #End Recursion
             return
         
         
         if (current_layer != self.hidden_layers):       #    For Hidden Layers
-            error = np.dot(delta_output, np.array(self.weights[current_layer+1]).T)
-            delta_output = error * self.sigmoid_prime(self.hidden_outputs[current_layer])
+            error = np.dot(delta, np.array(self.weights[current_layer+1]).T)
+            delta = error * self.sigmoid_prime(self.hidden_outputs[current_layer])
 
             
             #print("TEST " + str(current_layer) + str(error))
         
         else:           #   For Output Layer
-            delta_output = error * self.sigmoid_prime(self.hidden_outputs[current_layer])
+            delta = error * self.sigmoid_prime(self.hidden_outputs[current_layer])
             #print("TEST " + str(current_layer) + str(error))
             
 
 
-        self.biases[current_layer] += np.sum(delta_output, axis=0, keepdims=True) * self.learning_rate
-        self.weights[current_layer] += np.dot(np.array(self.hidden_outputs[current_layer]).T, delta_output) * self.learning_rate
+        self.biases[current_layer] += np.sum(delta, axis=0, keepdims=True) * self.learning_rate
+        self.weights[current_layer] += np.dot(np.array(self.hidden_outputs[current_layer]).T, delta) * self.learning_rate
 
-        self.backpropogate(error, current_layer-1, delta_output= delta_output)
+        self.backpropogate(error, current_layer-1, delta= delta)
 
     def mutate_weights(self, MUTATE_MAGNITUDE = 1.0, MUTATE_PERCENTAGE = 1.0):
         for l in self.weights:
