@@ -1,3 +1,4 @@
+
 import time 
 from copy import deepcopy
 import numpy as np
@@ -9,7 +10,7 @@ def determineFitness(N, Games):
     N.fitness = 0
     for G in Games:
         choice = N.getPlacement(G)
-        if (G.testPlace(choice[1][0]) == True):
+        if (G.testPlace(choice[0], choice[1]) == True):
             N.fitness += 1
     
 
@@ -18,7 +19,7 @@ def trainGeneration(population, Games):
     for N in population:
         determineFitness(N, Games)
     
-    population.sort(reverse = True, key = N.fitness)
+    population.sort(key=lambda N: N.fitness, reverse=True)
 
     newPopulation = []
     for i in range(5):
@@ -32,12 +33,17 @@ def trainGeneration(population, Games):
 
 
 def trainAlgorithm(numGenerations = 0):
-    Games = getBoards(endTurn= 8)
+    Games = getBoards(startTurn = 0, endTurn= 3)
 
-    population = [Network() for n in range(60)]
+    print(len(Games))
+    
+    
+    population = [Network(layer_nums = [16,13,16]) for n in range(60)]
 
     for g in range(numGenerations):
         population = trainGeneration(population, Games)
+        print(population[0].fitness)
 
 
-trainAlgorithm()
+
+trainAlgorithm(numGenerations = 1000)

@@ -11,6 +11,7 @@ class Game():
                 row.append(inputs[(4*r)+c])
             self.board.append(row)
     
+    
     def getInputs(self, player):
         inputs = []
         for row in self.board:
@@ -28,7 +29,7 @@ class Game():
         return False
 
     def has_won(self):
-        testSums = []
+        testSums = [0,0,0,0,0,0,0,0]
         for r in range(4):
             for c in range(4):
                 val = self.board[r][c]
@@ -73,20 +74,46 @@ class Game():
         
         return 0
 
-
-def getBoards(startTurn = 0, endTurn = 0, currentTurn = 0, lastSeed = [0 for i in range(16)], boards = []):
+            
+            
+def getBoards(startTurn = 0, endTurn = 0):
+    boards = []
+    indices = [-1 for t in range(endTurn)]
     
-    if (currentTurn == endTurn):
-        return boards
+    index = 0
+    adding = False
+    
+    while index < endTurn:
+        
+        indices[index] += 1
+        
+        if (indices.index(indices[index]) != index):
+            indices[index] += 1
+        
+        if (indices[index] >= 16):
+            indices[index] = 0
+            adding = True
+            index += 1 
+        
+        else:
+            adding = False
+            seed = [0 for t in range(16)]
+            
+            for i,val in enumerate(indices):
+                if (val > 0):
+                    if ((i+1) % 2 == 0):
+                        seed[val] = -1
+                    else:
+                        seed[val] = 1
+            G = Game(inputs = seed)
+            
+            if (G.has_won() == 0 and indices[startTurn] != -1):
+                boards.append(G)
+            
+            index = 0
 
-    for i in range(16):
-        seed = lastSeed
-        if (seed[i] == 0):
-            if (currentTurn % 2 == 0):
-                seed[i] = -1
-            else:
-                seed[i] = 1
-            newGame = Game(inputs = seed)
-            if (currentTurn >= startTurn):
-                boards.append(newGame)
-            getBoards(currentTurn = currentTurn + 1, lastSeed = seed, boards = boards)
+    return boards  
+    
+    
+    
+            
