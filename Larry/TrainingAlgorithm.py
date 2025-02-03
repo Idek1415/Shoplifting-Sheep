@@ -33,7 +33,7 @@ def trainGeneration(population, Games):
 
 
 def trainAlgorithm(numGenerations = 0):
-    Games = getBoards(startTurn = 0, endTurn= 3)
+    Games = getBoards(startTurn = 0, endTurn= 4)
 
     print(len(Games))
     
