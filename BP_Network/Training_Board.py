@@ -56,7 +56,8 @@ class Game:
                 if (testSum >= 3): return 1
                 if (testSum <= -3): return -1
             board = board.T
-        
+        board = board.T
+        board = board.T
         # for r in range(len(self.board)):
         #     testSum = 0
         #     for c in range(len(self.board[r])):
