@@ -54,19 +54,18 @@ class Network():
             self.propogate(hidden_output, current_layer= current_layer + 1)
 
     def mutate(self):
-        self.mutate_weights(MUTATE_MAGNITUDE= 1.0, MUTATE_PERCENTAGE= 1.0)
-        self.mutate_biases(MUTATE_MAGNITUDE= 0.5, MUTATE_PERCENTAGE= 1.0)
+        self.mutate_weights(MUTATE_MAGNITUDE= 0.2, MUTATE_PERCENTAGE= 0.25)
+        self.mutate_biases(MUTATE_MAGNITUDE= 0.1, MUTATE_PERCENTAGE= 0.25)
 
     def mutate_weights(self, MUTATE_MAGNITUDE = 1.0, MUTATE_PERCENTAGE = 1.0):
-        for l in self.weights:
-            for n in l:
-                for w in n:
-                    w += random.uniform(-1.0,1.0) * MUTATE_MAGNITUDE
+        for l in range(len(self.weights)):
+            for n in range(len(self.weights[l])):
+                for w in range(len(self.weights[l][n])):
+                    if (random.random() < MUTATE_PERCENTAGE):
+                        self.weights[l][n][w] += random.uniform(-1.0,1.0) * MUTATE_MAGNITUDE
 
     def mutate_biases(self, MUTATE_MAGNITUDE = 1.0, MUTATE_PERCENTAGE = 1.0):
-        for l in self.biases:
-            lO = deepcopy(l)
-            for b in l:
-                b += random.uniform(-1.0, 1.0) * MUTATE_MAGNITUDE
-            
-            print(l - lO)
+        for l in range(len(self.biases)):
+            for b in range(len(self.biases[l])):
+                if (random.random() < MUTATE_PERCENTAGE):
+                    self.biases[l][b] += random.uniform(-1.0, 1.0) * MUTATE_MAGNITUDE

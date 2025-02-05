@@ -13,7 +13,7 @@ def determineFitness(N, Games):
     for G in Games:
         choice = N.getPlacement(G)
         if (G.testPlace(choice[0], choice[1]) == True):
-            N.fitness += 1
+            #N.fitness += 1
             G.board[choice[1]][choice[0]] = 1
             if (G.has_won() == 1):
                 N.fitness += 10
@@ -34,7 +34,7 @@ def trainGeneration(population, Games):
 
     newPopulation = []
     for i in range(5):
-        for nN in range(4 * (5-i)):
+        for nN in range(2 * (5-i)):
             newLarry = deepcopy(population[i])
             if (nN != 0):
                 newLarry.mutate()
@@ -45,20 +45,20 @@ def trainGeneration(population, Games):
 
 def trainAlgorithm(numGenerations = 0, reset = False):
    
-    Games = getBoards(startTurn = 0, endTurn= 4)
+    Games = getBoards(startTurn = 0, endTurn= 5)
     print(len(Games))
 
 
     if(reset == True):
         os.remove("data.txt")
-        population = [Network(layer_nums = [16,13,16]) for n in range(60)]
+        population = [Network(layer_nums = [16,13,16]) for n in range(30)]
     else:
         try:
             LarryFile = open('Larry_Storage.txt', 'rb')
             population = pickle.load(LarryFile)
             LarryFile.close()
         except FileNotFoundError:
-            population = [Network(layer_nums = [16,13,16]) for n in range(60)]
+            population = [Network(layer_nums = [16,13,16]) for n in range(30)]
     
 
 
@@ -73,4 +73,4 @@ def trainAlgorithm(numGenerations = 0, reset = False):
 
 
 
-trainAlgorithm(numGenerations = 1000)
+trainAlgorithm(numGenerations = 0)

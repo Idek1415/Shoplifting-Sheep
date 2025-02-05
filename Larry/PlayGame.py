@@ -23,7 +23,7 @@ def playGame():
     if (larry == None): return 
 
     for turn in range(16):
-        os.system('clear')
+        #os.system('clear')
         #print(game.has_won())
         choice = larry.getPlacement(game)
         game.board[choice[1]][choice[0]] = 1

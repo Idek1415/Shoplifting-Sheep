@@ -78,7 +78,7 @@ class Game():
         
         return 0
 
-            
+
             
 def getBoards(startTurn = 0, endTurn = 0):
     boards = []
@@ -111,7 +111,7 @@ def getBoards(startTurn = 0, endTurn = 0):
                         seed[val] = 1
             G = Game(inputs = seed)
             
-            if (G.has_won() == 0 and indices[startTurn] != -1):
+            if (G.has_won() != 0 and indices[startTurn] != -1):
                 boards.append(G)
             
             index = 0
