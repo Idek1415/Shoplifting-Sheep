@@ -37,8 +37,21 @@ class Game():
     
     def testBump(self, x, y, xB, yB):
         if (self.board[y][x] == -1 and self.testPlace(xB, yB) == True):
-            return True
+            self.board[y][x] = 1
+            if (self.has_won() == 1):
+                self.board[y][x] = -1
+                return True
+            self.board[y][x] = -1
         return False
+
+    def testWin(self, playerVal, x, y):
+        if self.testPlace(x,y) == True:
+            self.board[y][x] = playerVal
+            if (self.has_won() == True):
+                self.board[y][x] = 0
+                return True
+            self.board[y][x] = playerVal
+            return False
 
     def has_won(self):
         for row in self.board:

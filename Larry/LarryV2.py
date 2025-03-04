@@ -26,29 +26,8 @@ class Network():
 
             self.fitness = 0
         
-        self.memory = []
-    
-    def addMemory(self, board, choice, value):
-        self.memory.append((board, choice, value))
-        
     def sigmoid(self, value):
-        return 1.0/ (1.0 + np.exp(-value))
-    
-    def getPlacement(self, Game):
-        inputs = Game.getInputs(1)
-
-        self.propogate(inputs = inputs)
-
-        legalChoice = False
-
-        while (legalChoice == False):
-            index = list(self.outputs).index(max(self.outputs))
-            choice = [(index % 4), (int)(index / 4)]
-            legalChoice = Game.testPlace(choice[0],choice[1])
-            if (legalChoice == False):
-                self.outputs[index] = 0.0
-        
-        return choice    
+        return 1.0/ (1.0 + np.exp(-value))    
     
     def propogate(self, inputs = [], current_layer = 0):
         hidden_output = self.sigmoid(np.dot(inputs, self.weights[current_layer]) + self.biases[current_layer])
@@ -79,36 +58,42 @@ class Network():
 
 
 
-
-
 class Larry():
 
     def __init__(self):
-        self.network = Network(layer_nums=[17,15,17])
+        self.playerVal = 1
+        self.placeNetwork = Network(layer_nums=[32, 16, 16])
+    
+    def addMemory(self):
+        pass
+
+    def getPlaceChoice(self, game):
+        choice = []
+        inputs = game.getInputs(self.playerVal) + self.placeNetwork.outputs
+
+        outputs = list(self.placeNetwork.propogate(inputs))
+
+        for o in range(len(outputs)):
+            if game.testPlace(o%4 , int(o/4)) == False:
+                outputs[o] = 0.0
+            
+            elif game.testWin(o%4 , int(o/4)) == True:
+                outputs[0] = 1.0
+        
+        index = outputs.index(max(outputs))
+        choice = [index%4, int(index/4)]
+        return choice
     
 
-    def getChoice(self, Game):
-        inputs = Game.getInputs() + [0.0]
 
-        self.network.propogate(inputs= inputs)
-        choice = self.getLegalChoice(Game)
 
-        if (self.network.outputs[16] > 0.5):
-            inputs[16] = 1.0
-            self.network.propogate(inputs = inputs)
-            choice += self.getLegalChoice(Game)
-        
 
-    def getLegalChoice(self, Game):
-        legalChoice = False
 
-        while (legalChoice == False):
-            index = list(self.outputs).index(max(self.outputs))
-            choice = [(index % 4), (int)(index / 4)]
-            legalChoice = Game.testPlace(choice[0],choice[1])
-            if (legalChoice == False):
-                self.outputs[index] = 0.0
-        
-        return choice    
 
-        
+
+
+
+
+
+    def addMemory(self, board, choice, value):
+        self.memory.append((board, choice, value))
